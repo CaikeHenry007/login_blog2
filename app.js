@@ -76,7 +76,7 @@ app.post('/login', (req, res) => {
         if (results.length > 0) {
             req.session.loggedin = true;
             req.session.username = username;
-            res.redirect('/dashboard');
+            res.redirect('/');
         } else {
             // res.send('Credenciais incorretas. <a href="/">Tente novamente</a>');
             res.redirect('/login_failed');
