@@ -1,3 +1,7 @@
 * {
-    border: 0px solid red;
+    border: 0px solid rgb(0, 255, 179);
+}
+
+body{
+    background-color: #e6e6e6;
 }

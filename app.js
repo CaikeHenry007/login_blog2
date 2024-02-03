@@ -87,13 +87,15 @@ app.post('/login', (req, res) => {
 // Rota para processar o formulário de caastro depostagem
 app.post('/cadastrar_posts', (req, res) => {
     const { titulo, conteudo } = req.body;
+    const autor ="admin";
+    const datapostagem = new Date();
 
     // const query = 'SELECT * FROM users WHERE username = ? AND password = SHA1(?)';
-    const query = 'INSERT INTO posts (titulo, conteudo) VALUES (?,?)';
+    const query = 'INSERT INTO posts (titulo, conteudo, autor, data_postagem) VALUES (?, ?, ?, ?)';
 
-    db.query(query, [titulo, conteudo], (err, results) => {
+    db.query(query, [titulo, conteudo, autor, datapostagem], (err, results) => {
         if (err) throw err;
-
+        console.log(`Rotina cadastrar posts: ${JSON.stringify(results)}`);
         if (results.length > 0) {
             console.log('Cadastro de postagem OK')
             res.redirect('/dashboard');
@@ -105,7 +107,7 @@ app.post('/cadastrar_posts', (req, res) => {
 });
 
 // const query = 'INSERT INTO users (username, password) VALUES (?, SHA1(?))';
-// console.log(`POST /CADASTAR -> query -> ${query}`);
+// console.log(//`POST /CADASTAR -> //query -> ${query}`);
 // db.query(query, [username, password], (err, results) => {
 //     console.log(results);
 //     //console.log(`POST /CADASTAR -> results -> ${results}`);
