@@ -3,5 +3,9 @@
 }
 
 body{
-    background-color: #e6e6e6;
+    background-color: #838383;
+}
+
+input{
+    border-radius: 20px;
 }
