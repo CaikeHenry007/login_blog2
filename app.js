@@ -98,10 +98,10 @@ app.post('/cadastrar_posts', (req, res) => {
         console.log(`Rotina cadastrar posts: ${JSON.stringify(results)}`);
         if (results.affectedRows > 0) {
             console.log('Cadastro de postagem OK')
-            res.redirect('/dashboard');
+            res.redirect('/post_ok');
         } else {
             // res.send('Credenciais incorretas. <a href="/">Tente novamente</a>');
-            res.send('Cadastro de post não efetuado');
+            res.redirect('/post_failed');
         }
     });
 });
@@ -179,6 +179,14 @@ app.post('/cadastrar', (req, res) => {
 
 app.get('/register_failed', (req, res) => {
     res.render('pages/register_failed', { req: req });
+});
+
+app.get('/post_failed', (req, res) => {
+    res.render('pages/post_failed', { req: req });
+});
+
+app.get('/post_ok', (req, res) => {
+    res.render('pages/post_ok', { req: req });
 });
 
 app.get('/register_ok', (req, res) => {
