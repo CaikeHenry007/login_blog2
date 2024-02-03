@@ -96,7 +96,7 @@ app.post('/cadastrar_posts', (req, res) => {
     db.query(query, [titulo, conteudo, autor, datapostagem], (err, results) => {
         if (err) throw err;
         console.log(`Rotina cadastrar posts: ${JSON.stringify(results)}`);
-        if (results.length > 0) {
+        if (results.affectedRows > 0) {
             console.log('Cadastro de postagem OK')
             res.redirect('/dashboard');
         } else {
@@ -127,7 +127,11 @@ app.post('/cadastrar_posts', (req, res) => {
 // Rota para a página cadastro do post
 app.get('/cadastrar_posts', (req, res) => {
     // Quando for renderizar páginas pelo EJS, passe parametros para ele em forma de JSON
+    if(req.session.loggedin) {
     res.render('pages/cadastrar_posts', { req: req });
+    } else {
+        res.redirect('/login_failed');
+    }
 });
 
 // Rotas para cadastrar
@@ -194,7 +198,7 @@ app.get('/dashboard', (req, res) => {
         // res.sendFile(__dirname + '/index.html');
         res.render('pages/dashboard', { req: req });
     } else {
-        res.send('Faça login para acessar esta página. <a href="/">Login</a>');
+        res.redirect('/login_failed');
     }
 });
 
