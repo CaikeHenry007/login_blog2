@@ -24,6 +24,8 @@ h4{
     color: #777777;
 }
 
-textarea{
-    height: 1000px;
+.text{
+    height: 200px;
+    width: 1050px;
+    border-radius: 20px;
 }
