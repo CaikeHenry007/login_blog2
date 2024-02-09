@@ -76,16 +76,15 @@ app.get('/posts', (req, res) => {
         if (err) throw err;
         res.render('pages/pg_posts', { req: req, posts: results });
 
-//         if (results.length > 0) {
-//             req.session.loggedin = true;
-//             req.session.username = username;
-//             res.redirect('/');
-//         } else {
-//             // res.send('Credenciais incorretas. <a href="/">Tente novamente</a>');
-//             res.redirect('/login_failed');
-//         }
-//     res.render('pages/pg_posts', { req: req, posts: dados });
 });
+});
+
+app.delete('/posts/:id', (req, res) => {
+    const postId = req.params.id;
+    connection.query('DELETE FROM posts WHERE id = ?', postId, (error, results) => {
+        if (error) throw error;
+        res.sendStatus(200);
+    });
 });
 
 // Rota para processar o formulário de login
@@ -220,6 +219,10 @@ app.get('/post_failed', (req, res) => {
 
 app.get('/post_ok', (req, res) => {
     res.render('pages/post_ok', { req: req });
+});
+
+app.get('/lista_posts', (req, res) => {
+    res.render('pages/lista_posts', { req: req });
 });
 
 app.get('/register_ok', (req, res) => {
