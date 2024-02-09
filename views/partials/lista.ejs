@@ -1,8 +1,10 @@
-<div class="posts">
-    <% posts.forEach(post => { %>
-     <h1><%= post.titulo %></h1>
-     <h4><%= post.autor %> - <%= post.data_postagem%></h4>
-     <p class="linha">____________________________________</p>
+<% posts.forEach(post => { %>
+    <div class="post">
+        <h1><%= post.titulo %></h1>
+        <h4><%= post.autor %> - <%= post.data_postagem %></h4>
+        <!-- <button class="delete-post" data-id="<%= post.id %>" type="submit">Deletar</button> -->
+        <a href="/lista/<%= post.id %>" class="btn btn-danger">Deletar</a>
+        <p class="linha">____________________________________</p>
+    </div>
     <% }) %>
-</div>
-
+    

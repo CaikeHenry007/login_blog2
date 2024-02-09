@@ -65,27 +65,39 @@ app.get('/about', (req, res) => {
 });
 
 app.get('/posts', (req, res) => {
-    // const dados = [
-    //     {titulo: "Post 1", conteudo: "Conteúdo post 1", autor: "Autor 1", data_postagem: "07/02/2024"},
-    //     {titulo: "Post 2", conteudo: "Conteúdo post 2", autor: "Autor 2", data_postagem: "07/02/2024"},
-    //     {titulo: "Post 3", conteudo: "Conteúdo post 3", autor: "Autor 3", data_postagem: "07/02/2024"},
-    // ];
+
     const query = 'SELECT * FROM posts';
 
     db.query(query, [], (err, results) => {
         if (err) throw err;
         res.render('pages/pg_posts', { req: req, posts: results });
 
-});
-});
-
-app.delete('/posts/:id', (req, res) => {
-    const postId = req.params.id;
-    connection.query('DELETE FROM posts WHERE id = ?', postId, (error, results) => {
-        if (error) throw error;
-        res.sendStatus(200);
     });
 });
+
+app.get('/lista', (req, res) => {
+    const autor = req.session.username; // Obtendo o nome de usuário da sessão
+    if (!autor) {
+        return res.redirect('/login'); // Redireciona para a página de login se o usuário não estiver autenticado
+    }
+    const query = 'SELECT * FROM posts';
+    db.query(query, [], (err, results) => {
+        if (err) throw err;
+
+        res.render('pages/lista_posts', { req: req, posts: results });
+
+    });
+});
+
+// Rota para deletar um post
+app.get('/lista/:id', (req, res) => {
+    const postId = req.params.id;
+    db.query('DELETE FROM posts WHERE id = ?', postId, (error, results) => {
+        if (error) throw error;
+        res.redirect('/delete_ok');
+    });
+});
+
 
 // Rota para processar o formulário de login
 app.post('/login', (req, res) => {
@@ -111,12 +123,12 @@ app.post('/login', (req, res) => {
 app.post('/cadastrar_posts', (req, res) => {
     const { titulo, conteudo } = req.body;
     const autor = req.session.username; // Obtendo o nome de usuário da sessão
-    
+
     // Verificando se o usuário está autenticado
     if (!autor) {
         return res.redirect('/login'); // Redireciona para a página de login se o usuário não estiver autenticado
     }
-    
+
     // Obtendo a data atual sem o horário
     const data_postagem = new Date().toISOString().split('T')[0];
 
@@ -159,8 +171,8 @@ app.post('/cadastrar_posts', (req, res) => {
 // Rota para a página cadastro do post
 app.get('/cadastrar_posts', (req, res) => {
     // Quando for renderizar páginas pelo EJS, passe parametros para ele em forma de JSON
-    if(req.session.loggedin) {
-    res.render('pages/cadastrar_posts', { req: req });
+    if (req.session.loggedin) {
+        res.render('pages/cadastrar_posts', { req: req });
     } else {
         res.redirect('/login_failed');
     }
@@ -213,16 +225,16 @@ app.get('/register_failed', (req, res) => {
     res.render('pages/register_failed', { req: req });
 });
 
+app.get('/delete_ok', (req, res) => {
+    res.render('pages/delete_ok', { req: req });
+});
+
 app.get('/post_failed', (req, res) => {
     res.render('pages/post_failed', { req: req });
 });
 
 app.get('/post_ok', (req, res) => {
     res.render('pages/post_ok', { req: req });
-});
-
-app.get('/lista_posts', (req, res) => {
-    res.render('pages/lista_posts', { req: req });
 });
 
 app.get('/register_ok', (req, res) => {
