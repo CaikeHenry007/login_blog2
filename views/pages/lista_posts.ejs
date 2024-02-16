@@ -3,7 +3,7 @@
 
 <head>
     <%- include('../partials/head'); %>
-    <link rel="stylesheet" href="menu_centralizado.css">
+    <link rel="stylesheet" href="/static/menu_centralizado.css">
 </head>
 
 <body class="container">
@@ -20,9 +20,6 @@
             <div class="col-sm-8">
                 <div class="jumbotron">
                     <%- include('../partials/lista'); %>
-                    <form action="/deletar" method="post">
-                        <button type="submit">Deletar todos os posts</button>
-                    </form>
                 </div>
             </div>
         </div>

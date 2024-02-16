@@ -3,7 +3,7 @@
 
 <head>
     <%- include('../partials/head'); %>
-    <link rel="stylesheet" href="menu_centralizado.css">
+    <link rel="stylesheet" href="/static/menu_centralizado.css">
 </head>
 
 <body class="container">
@@ -16,18 +16,21 @@
     </header>
 
     <main class="container">
-        <% function renderForm(post) { %>
         <div class="container-sm border border-danger rounded-lg">
             <div class="form-group">
                 <h3 style="text-align: center;">Edite a sua postagem</h3>
-                <form action="/editar_posts/<%= post.id %>" method="post">
+                <form action="/editar_posts/<%= posts.id %>" method="post">
                     <div class="form-group">
                         <div><label for="titulo">Título</label></div>
-                        <div><input type="text" id="titulo" name="titulo" value="<%= post.titulo %>" required class="form-control"></div>
+                        <div>
+                            <input type="text" id="titulo" name="titulo" value="<%= posts.titulo %>" required class="form-control">
+                        </div>
                     </div>
                     <div class="form-group">
                         <div><label for="conteudo">Conteúdo</label></div>
-                        <div><textarea id="conteudo" name="conteudo" required class="form-control"><%= post.conteudo %></textarea></div>
+                        <div>
+                            <textarea id="conteudo" name="conteudo" required class="form-control"><%= posts.conteudo %></textarea>
+                        </div>
                     </div>
                     <div>
                         <button type="submit" class="form-control btn btn-dark">Atualizar</button>
@@ -35,11 +38,6 @@
                 </form>
             </div>
         </div>
-        <% } %>
-
-        <% posts.forEach(post => { %>
-            <%= renderForm(post) %>
-        <% }) %>
 
         <div class="fixed-bottom">...</div>
     </main>
