@@ -98,6 +98,15 @@ app.get('/lista/:id', (req, res) => {
     });
 });
 
+// Rota para deletar todos os posts
+app.get('/lista', (req, res) => {
+    const postId = req.params.id;
+    db.query('DELETE FROM posts', postId, (error, results) => {
+        if (error) throw error;
+        res.redirect('/delete_ok');
+    });
+});
+
 
 // Rota para processar o formulário de login
 app.post('/login', (req, res) => {
