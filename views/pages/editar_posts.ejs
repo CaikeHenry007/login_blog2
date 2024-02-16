@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ptbr">
+
+<head>
+    <%- include('../partials/head'); %>
+    <link rel="stylesheet" href="menu_centralizado.css">
+</head>
+
+<body class="container">
+
+    <header class="container">
+        <%- include('../partials/header'); %>
+        <% if(req.session.loggedin) { %>
+        <%- include('../partials/menu_dashboard'); %>
+        <% } %>
+    </header>
+
+    <main class="container">
+        <% function renderForm(post) { %>
+        <div class="container-sm border border-danger rounded-lg">
+            <div class="form-group">
+                <h3 style="text-align: center;">Edite a sua postagem</h3>
+                <form action="/editar_posts/<%= post.id %>" method="post">
+                    <div class="form-group">
+                        <div><label for="titulo">Título</label></div>
+                        <div><input type="text" id="titulo" name="titulo" value="<%= post.titulo %>" required class="form-control"></div>
+                    </div>
+                    <div class="form-group">
+                        <div><label for="conteudo">Conteúdo</label></div>
+                        <div><textarea id="conteudo" name="conteudo" required class="form-control"><%= post.conteudo %></textarea></div>
+                    </div>
+                    <div>
+                        <button type="submit" class="form-control btn btn-dark">Atualizar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <% } %>
+
+        <% posts.forEach(post => { %>
+            <%= renderForm(post) %>
+        <% }) %>
+
+        <div class="fixed-bottom">...</div>
+    </main>
+
+    <footer>
+        <%- include('../partials/footer'); %>
+    </footer>
+
+</body>
+
+</html>

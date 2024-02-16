@@ -1,4 +1,5 @@
 <div class="posts">
+    <p>No momento temos <%= posts.length %> posts em nosso blog</p>
     <% posts.forEach(post => { %>
      <h1><%= post.titulo %></h1>
      <p><%- post.conteudo %></p>

@@ -99,7 +99,7 @@ app.get('/lista/:id', (req, res) => {
 });
 
 // Rota para deletar um post
-app.post('/deletar', (req, res) => {
+app.post('/delete', (req, res) => {
   
     db.query('DELETE FROM posts', (error, results) => {
         if (error) throw error;
@@ -129,7 +129,7 @@ app.post('/login', (req, res) => {
     });
 });
 
-// Rota para processar o formulário de caastro depostagem
+// Rota para processar o formulário de cadastro depostagem
 app.post('/cadastrar_posts', (req, res) => {
     const { titulo, conteudo } = req.body;
     const autor = req.session.username; // Obtendo o nome de usuário da sessão
@@ -149,6 +149,48 @@ app.post('/cadastrar_posts', (req, res) => {
         console.log(`Rotina cadastrar posts: ${JSON.stringify(results)}`);
         if (results.affectedRows > 0) {
             console.log('Cadastro de postagem OK')
+            res.redirect('/post_ok');
+        } else {
+            res.redirect('/post_failed');
+        }
+    });
+});
+
+app.get('/editar', (req, res) => {
+    const autor = req.session.username; // Obtendo o nome de usuário da sessão
+    if (!autor) {
+        return res.redirect('/login'); // Redireciona para a página de login se o usuário não estiver autenticado
+    }
+    const query = 'SELECT * FROM posts';
+    db.query(query, [], (err, results) => {
+        if (err) throw err;
+
+        res.render('pages/editar_posts', { req: req, posts: results });
+
+    });
+});
+
+// Rota para processar o formulário de editar postagem
+app.post('/editar_posts/:id', (req, res) => {
+    const postId = req.params.id; // Obtendo o ID do post a ser editado
+    const { titulo, conteudo } = req.body;
+    const autor = req.session.username; // Obtendo o nome de usuário da sessão
+
+    // Verificando se o usuário está autenticado
+    if (!autor) {
+        return res.redirect('/login'); // Redireciona para a página de login se o usuário não estiver autenticado
+    }
+    
+    // Obtendo a data atual sem o horário
+    const data_postagem = new Date().toISOString().split('T')[0];
+
+    const query = 'UPDATE posts SET titulo = ?, conteudo = ?, data_postagem = ? WHERE id = ?';
+
+    db.query(query, [titulo, conteudo, data_postagem, postId], (err, results) => {
+        if (err) throw err;
+        console.log(`Rotina editar posts: ${JSON.stringify(results)}`);
+        if (results.affectedRows > 0) {
+            console.log('Edição de postagem OK')
             res.redirect('/post_ok');
         } else {
             res.redirect('/post_failed');
