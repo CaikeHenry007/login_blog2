@@ -29,3 +29,11 @@ h4{
     width: 1050px;
     border-radius: 20px;
 }
+
+button{
+    color: #fff;
+    background-color: #e93a3a;
+    border-radius: 5px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 25px;
+}
